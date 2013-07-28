@@ -35,7 +35,7 @@ package
 			
 			titleSprite = new Sprite();
 			textOutputGUI = new Sprite();
-			
+			/*
 			var BGloader:Loader = new Loader();
 			BGloader.contentLoaderInfo.addEventListener(Event.COMPLETE, BGloaderComplete);
 			BGloader.load(new URLRequest("images/background.jpg"));
@@ -47,17 +47,20 @@ package
 			var textOutputGUILoader:Loader = new Loader();
 			textOutputGUILoader.contentLoaderInfo.addEventListener(Event.COMPLETE, textOutputGUILoaderComplete);
 			textOutputGUILoader.load(new URLRequest("images/textBG.png"));
-			
+			*/
 			//2 modes: identify money and game mode
 			//identify money simply detects money and says it back to the user
 			//game mode will test and grade user based on the least amount of bills used to complete a purchase
 			
+			
+			MoneyCounter.instance.readyToRecord  = true;
+			
 		}
-		
+		/*
 		public function BGloaderComplete (event:Event):void
 		{
 	//		addChild(new Bitmap(Bitmap(LoaderInfo(event.target).content).bitmapData));
-			//MoneyCounter.instance.airSpeech.speak("Welcome to the shopping game. You can select a game mode by saying money, or shopping.  You can tap anywhere on the screen to start talking.  When you are finished talking, tap the screen again.");
+			say(("Welcome to the shopping game. You can select a game mode by saying money, or shopping.  You can tap anywhere on the screen to start talking.  When you are finished talking, tap the screen again.");
 			MoneyCounter.instance.readyToRecord  = true;
 		}
 		
@@ -70,21 +73,23 @@ package
 		
 		public function textOutputGUILoaderComplete(event:Event):void
 		{
+			MoneyCounter.instance.readyToRecord  = true;
 			textOutputGUI.addChild(new Bitmap(Bitmap(LoaderInfo(event.target).content).bitmapData));
 			addChild(textOutputGUI);
 			textOutputGUI.x = 34;
 			textOutputGUI.y = 1024 - textOutputGUI.height;
-		}
+		}*/
 		
 		public function startMoneyMode():void
 		{
-			//MoneyCounter.instance.airSpeech.speak("Please hold up one bill at a time for the camera.");
+			MoneyCounter.instance.say("Please hold up one bill at a time for the camera.");
+			
 		}
 		
 		public function startShoppingMode():void
 		{
-			//MoneyCounter.instance.airSpeech.speak("Please help " + nameList[randRange(0,nameList.length -1)] + " determine how much money is required to buy;
-			
+			MoneyCounter.instance.say("");
+		
 		}
 			
 		public function randRange(min:Number, max:Number):Number{

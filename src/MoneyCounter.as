@@ -4,6 +4,7 @@ package
 	import com.vitapoly.speech.AirSpeech;
 	import com.vitapoly.speech.AirSpeechRecognitionEvent;
 	
+	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
@@ -20,17 +21,19 @@ package
 	import flash.net.URLRequest;
 	import flash.net.URLRequestMethod;
 	import flash.text.TextField;
+	import flash.text.TextFormat;
 	import flash.utils.ByteArray;
 	import flash.utils.Timer;
 	
 	import cmodule.aircall.CLibInit;
-	import flash.display.Bitmap;
 	
 
 	[SWF(backgroundColor="#ffffff", frameRate="60", width = "768", height = "1024" )]
 	public class MoneyCounter extends Sprite
 	{
 		public static var instance:MoneyCounter;
+		private var disableSpeechDebug:Boolean = true;  //set to false if want speech
+		
 		
 		private var camera:Camera;
 		private var video:Video;
@@ -55,11 +58,14 @@ package
 			
 			//  init camera
 			setupCamera();
-				
+			var textFormat:TextFormat = new TextFormat;
+			textFormat.size = 20;
+			
 			debugTxt = new TextField();
-			debugTxt.width = 500;
-			debugTxt.height = 500;
+			debugTxt.width = 1024;
+			debugTxt.height = 768;
 			debugTxt.alpha = 70;
+			debugTxt.defaultTextFormat = textFormat;
 			addChild(debugTxt);
 			
 		}
@@ -108,7 +114,7 @@ package
 				if ((e.response.status == 0) && (e.response.hypotheses.length)) {
 					var phrase:String = e.response.hypotheses[0].utterance; // recognized phrase
 					
-					airSpeech.speak("I've heard you say, " + phrase);
+					say("I've heard you say, " + phrase);
 					
 					switch(phrase)
 					{
@@ -122,7 +128,7 @@ package
 					}					
 					
 				} else {
-					airSpeech.speak("I am sorry, I didn't catch that.");
+					say("I am sorry, I didn't catch that.");
 				}
 			});
 			
@@ -145,10 +151,12 @@ package
 		public function toggleRecordOnOff():void
 		{
 			if (isRecording) {
-			airSpeech.stopRecording();
+				if(!disableSpeechDebug)	
+					airSpeech.stopRecording();
 			isRecording = false;
 			} else {
-			airSpeech.startRecording();
+				if(!disableSpeechDebug)	
+					airSpeech.startRecording();
 			isRecording = true;
 			}
 		}
@@ -193,6 +201,14 @@ package
 				log(error.getStackTrace());
 			}
 		}		
+		
+		public function say(str:String):void
+		{
+			if(!disableSpeechDebug)
+				airSpeech.speak(str);
+			
+			trace(str);
+		}
 
 		public function bitmapDataToJpeg(bitmapData:BitmapData):ByteArray
 		{
