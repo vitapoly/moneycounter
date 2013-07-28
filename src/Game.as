@@ -17,14 +17,14 @@ package
 	import flash.net.URLLoaderDataFormat;
 	import flash.net.URLRequest;
 	import flash.net.URLRequestMethod;
+	import flash.text.TextField;
 	import flash.utils.ByteArray;
 	import flash.utils.Timer;
-	import flash.text.TextField;
 		
 	public class Game extends Sprite
 	{
-		private var titleSprite:Sprite;
-		private var textOutputGUI:Sprite;
+		private var moneyModeDebugBtn:Sprite;
+		private var shoppingModeDebugBtn:Sprite;
 		private var outputTxt:TextField;
 		private var nameList:Array = new Array("Jun", "Mark", "Micheal", "Larry", "Amado", "Byron", "Caleb", "Kial", "Robert", "Steve", "Tipatat", "Taige", "Amir ", "James", "Jimmy","Saravjeet","Monty","Rebecca","Vanessa","Kefan","Oliver","Putri","Matthew","Kia","James", "Keith","Cheryl","Christopher","Carolyn","LaTorri","Chris","Elissa","KewPee","Charles","Nicu","Beverly","Greg","Kurt","Hao","Noreen","Regina","Phil","Angelo","Hari","Dominique","Isa","Lily","Celeste","Trisha","Yosun" );
 		
@@ -33,8 +33,26 @@ package
 		{
 			super();
 			
-			titleSprite = new Sprite();
-			textOutputGUI = new Sprite();
+			moneyModeDebugBtn = new Sprite();
+			shoppingModeDebugBtn = new Sprite();
+			
+			var moneyMode:TextField  = new TextField;
+			moneyMode.text = "Money Mode";
+			moneyModeDebugBtn.addChild(moneyMode);
+			moneyModeDebugBtn.addEventListener("mouseDown", moneyModeDebugBtnHandler);
+			moneyModeDebugBtn.x = 500; moneyModeDebugBtn.y = 500;
+			
+			
+			var shoppingMode:TextField  = new TextField;
+			shoppingMode.text = "Shopping Mode";
+			shoppingModeDebugBtn.addChild(shoppingMode);
+			shoppingModeDebugBtn.x = 500; shoppingModeDebugBtn.y = 600;
+			shoppingModeDebugBtn.addEventListener("mouseDown", shoppingModeDebugBtnHandler);
+			
+			
+			addChild(moneyModeDebugBtn);
+			addChild(shoppingModeDebugBtn);
+			
 			/*
 			var BGloader:Loader = new Loader();
 			BGloader.contentLoaderInfo.addEventListener(Event.COMPLETE, BGloaderComplete);
@@ -56,6 +74,18 @@ package
 			MoneyCounter.instance.readyToRecord  = true;
 			
 		}
+		
+		private function moneyModeDebugBtnHandler(e:Event):void
+		{
+			startMoneyMode();
+		}
+		
+		private function shoppingModeDebugBtnHandler(e:Event):void
+		{
+			startShoppingMode();
+		}
+		
+		
 		/*
 		public function BGloaderComplete (event:Event):void
 		{

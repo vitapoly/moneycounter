@@ -26,6 +26,7 @@ package
 	import flash.utils.Timer;
 	
 	import cmodule.aircall.CLibInit;
+	import flash.display.Bitmap;
 	
 
 	[SWF(backgroundColor="#ffffff", frameRate="60", width = "768", height = "1024" )]
@@ -33,7 +34,6 @@ package
 	{
 		public static var instance:MoneyCounter;
 		private var disableSpeechDebug:Boolean = true;  //set to false if want speech
-		
 		
 		private var camera:Camera;
 		private var video:Video;
@@ -47,6 +47,7 @@ package
 		
 		
 		private var debugTxt:TextField;
+		
 		public function MoneyCounter()
 		{
 			super();
@@ -54,18 +55,19 @@ package
 			// support autoOrients
 			stage.align = StageAlign.TOP_LEFT;
 			stage.scaleMode = StageScaleMode.NO_SCALE;
-			
-			
+						
 			//  init camera
 			setupCamera();
 			var textFormat:TextFormat = new TextFormat;
 			textFormat.size = 20;
 			
 			debugTxt = new TextField();
-			debugTxt.width = 1024;
-			debugTxt.height = 768;
+			debugTxt.width = 500;
+			debugTxt.height = 500;
 			debugTxt.alpha = 70;
+			debugTxt.x = video.width;
 			debugTxt.defaultTextFormat = textFormat;
+			debugTxt.text = "Debug Text Area";
 			addChild(debugTxt);
 			
 		}
@@ -73,7 +75,8 @@ package
 		public function log(str):void
 		{
 			trace(str);
-			debugTxt.text = str;
+			debugTxt.text += str + "\n";
+			debugTxt.scrollV = debugTxt.numLines - 4;
 		}
 
 		
@@ -189,7 +192,7 @@ package
 				urlLoader.addEventListener(flash.events.Event.COMPLETE, function(e:flash.events.Event):void
 				{
 					callback(e.target.data);
-					log("done: "+ e.target.data);
+					log("done: \n"+ e.target.data);
 				});				
 				
 				urlLoader.load(urlRequest);
@@ -207,7 +210,7 @@ package
 			if(!disableSpeechDebug)
 				airSpeech.speak(str);
 			
-			trace(str);
+			log(str);
 		}
 
 		public function bitmapDataToJpeg(bitmapData:BitmapData):ByteArray
